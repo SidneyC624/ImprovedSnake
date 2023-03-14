@@ -164,7 +164,6 @@ public class GamePanel extends JPanel implements ActionListener{
 		FontMetrics metrics1 = getFontMetrics(g.getFont());
 		g.drawString("Score: " + appleEaten, (SCREEN_WIDTH-metrics1.stringWidth("Score: " + appleEaten))/2, g.getFont().getSize());
 		
-		// now = new Date();
 		playTime = sdf.format(new Date(now.getTime() - start.getTime()));
 		g.setColor(Color.blue);
 		g.drawString("Time: " + playTime, (SCREEN_WIDTH-metrics1.stringWidth("Time: " + playTime))/2, (g.getFont().getSize())*2);
