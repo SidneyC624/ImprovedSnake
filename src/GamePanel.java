@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
+
 import javax.swing.*;
+
+import java.util.Date;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener{
@@ -20,6 +24,10 @@ public class GamePanel extends JPanel implements ActionListener{
 	boolean running = false;
 	Timer timer;
 	Random random;
+	Date start;
+	Date now;
+	SimpleDateFormat sdf;
+	String playTime;
 	
 	GamePanel() {
 		random = new Random();
@@ -35,6 +43,8 @@ public class GamePanel extends JPanel implements ActionListener{
 		running = true;
 		timer = new Timer(DELAY, this);
 		timer.start();
+		start = new Date();
+		sdf = new SimpleDateFormat("mm:ss");
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -64,9 +74,16 @@ public class GamePanel extends JPanel implements ActionListener{
 			}
 			
 			g.setColor(Color.yellow);
-			g.setFont(new Font("Monospaced", Font.BOLD, 40));
+			g.setFont(new Font("Monospaced", Font.BOLD, 30));
 			FontMetrics metrics = getFontMetrics(g.getFont());
 			g.drawString("Score: " + appleEaten, (SCREEN_WIDTH-metrics.stringWidth("Score: " + appleEaten))/2, g.getFont().getSize());
+			
+			
+			// display timer
+			now = new Date();
+			playTime = sdf.format(new Date(now.getTime() - start.getTime()));
+			g.setColor(Color.blue);
+			g.drawString("Time: " +playTime, (SCREEN_WIDTH-metrics.stringWidth("Time: " + playTime))/2, (g.getFont().getSize())*2);
 		}
 		else {
 			gameOver(g);
@@ -143,9 +160,14 @@ public class GamePanel extends JPanel implements ActionListener{
 	public void gameOver(Graphics g) {
 		
 		g.setColor(Color.yellow);
-		g.setFont(new Font("Monospaced", Font.BOLD, 40));
+		g.setFont(new Font("Monospaced", Font.BOLD, 30));
 		FontMetrics metrics1 = getFontMetrics(g.getFont());
 		g.drawString("Score: " + appleEaten, (SCREEN_WIDTH-metrics1.stringWidth("Score: " + appleEaten))/2, g.getFont().getSize());
+		
+		// now = new Date();
+		playTime = sdf.format(new Date(now.getTime() - start.getTime()));
+		g.setColor(Color.blue);
+		g.drawString("Time: " + playTime, (SCREEN_WIDTH-metrics1.stringWidth("Time: " + playTime))/2, (g.getFont().getSize())*2);
 		
 		g.setColor(Color.red);
 		g.setFont(new Font("Monospaced", Font.BOLD, 70));
